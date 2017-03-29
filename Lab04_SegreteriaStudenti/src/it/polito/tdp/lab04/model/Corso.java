@@ -41,11 +41,6 @@ public class Corso {
 	}
 	
 	
-	public String getCodice() {
-		return codice;
-	}
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -70,6 +65,41 @@ public class Corso {
 		} else if (!codice.equals(other.codice))
 			return false;
 		return true;
+	}
+
+
+	public String getCodice() {
+		return codice;
+	}
+
+
+	public int getCfu() {
+		return cfu;
+	}
+
+
+	public void setCfu(int cfu) {
+		this.cfu = cfu;
+	}
+
+
+	public int getPd() {
+		return pd;
+	}
+
+
+	public void setPd(int pd) {
+		this.pd = pd;
+	}
+
+
+	public void setCodice(String codice) {
+		this.codice = codice;
+	}
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	
 }

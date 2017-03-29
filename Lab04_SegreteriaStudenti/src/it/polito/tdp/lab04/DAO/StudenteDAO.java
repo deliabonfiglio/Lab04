@@ -34,7 +34,7 @@ public class StudenteDAO {
 			return stemp;
 
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			throw new RuntimeException("Errore Db");
 		}
 	}

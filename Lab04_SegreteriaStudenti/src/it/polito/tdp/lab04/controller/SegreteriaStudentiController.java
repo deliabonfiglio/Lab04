@@ -87,19 +87,18 @@ public class SegreteriaStudentiController {
 	 */
 	@FXML
 	void doCercaIscrittiCorso(ActionEvent event) {
-		
-		Corso corso = comboCorso.getValue();
-		
-		LinkedList<Studente> st = new LinkedList<Studente>(model.getStudentiDelCorso(corso));
-		
-		if(st!=null){
-			for(Studente s: st)
-				txtResult.appendText(s.toString()+"\n");			
-		}else{
-			txtResult.appendText("Corso senza iscritti! \n");
+	     Corso c = comboCorso.getValue();
+	    
+	     if(c!=null){
+	    	 
+		     String result=model.getStudentiDelCorso(c).toString();
+		     txtResult.setText( result);
+		     
+	     } else {
+	    	 txtResult.appendText("Attenzione! Selezionare un corso!\n");
+	     }
+	     
 		}
-		
-	}
 
 	@FXML
 	void doCercaCorsi(ActionEvent event) {
