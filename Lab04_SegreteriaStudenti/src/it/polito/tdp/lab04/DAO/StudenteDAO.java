@@ -28,10 +28,38 @@ public class StudenteDAO {
 			
 			while (rs.next()) {				
 				stemp= new Studente(rs.getInt("matricola"), rs.getString("nome"), rs.getString("cognome"), rs.getString("CDS"));
-
 			}
 
 			return stemp;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Errore Db");
+		}
+	}
+
+	public List<Corso> elencoCorsi(Integer mat) {
+		//final String sql = "SELECT c.codins FROM corso AS c AND iscrizione AS i "+ "WHERE c.codins=i.codins AND matricola=? ";
+		final String sql = "SELECT c.codins, c.crediti, c.nome, c.pd "+" FROM iscrizione as i, corso as c "+ "WHERE i.codins=c.codins && i.matricola= ? ";
+		
+		LinkedList<Corso> corsi = new LinkedList<Corso>();
+		
+		try {
+			Connection conn = ConnectDB.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+
+			st.setInt(1, mat);
+			
+			ResultSet rs = st.executeQuery();
+			
+			Corso c = null;
+			
+			while (rs.next()) {				
+				c= new Corso(rs.getString("codins"), rs.getInt("crediti"), rs.getString("nome"), rs.getInt("pd"));
+				corsi.add(c);
+			}
+
+			return corsi;
 
 		} catch (SQLException e) {
 			e.printStackTrace();

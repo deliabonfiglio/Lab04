@@ -96,12 +96,31 @@ public class SegreteriaStudentiController {
 		     
 	     } else {
 	    	 txtResult.appendText("Attenzione! Selezionare un corso!\n");
-	     }
-	     
-		}
+	     }	     
+	}
 
+		
+	/*
+	 * Controllare se lo studente è presente nel database, ed in caso visualizzare tutti i corsi ai quali è iscritto. 
+	 * Se la matricola non è presente, visualizzare un messaggio di errore.
+	 */
 	@FXML
 	void doCercaCorsi(ActionEvent event) {
+		String matricola= txtMatricola.getText();
+		int mat = Integer.parseInt(matricola);
+		
+		if(matricola!=""){
+		Studente s = model.getStudenti(mat);
+		
+			if(s!=null){
+				String res = model.getCorsiDelloStudente(s).toString();
+				txtResult.appendText(res);				
+			}
+			
+		} else {
+			txtResult.appendText("Inserire la matricola!");
+		}
+		
 		
 	}
 

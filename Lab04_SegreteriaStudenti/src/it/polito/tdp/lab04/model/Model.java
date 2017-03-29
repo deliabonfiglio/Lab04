@@ -38,6 +38,17 @@ public class Model {
 			}
 			return corso.getStudenti();
 		}
+
+	public List<Corso> getCorsiDelloStudente(Studente s) {
+		int mat = s.getMatricola();
+		
+		if(this.getStudenti(mat)!=null){
+			StudenteDAO dao = new StudenteDAO();
+			return	dao.elencoCorsi( mat);
+		}
+				
+		return null;
+	}
 	
 	
 }
