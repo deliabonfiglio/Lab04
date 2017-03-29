@@ -50,32 +50,65 @@ public class SegreteriaStudentiController {
 	private TextField txtCognome;
 
 	public void setModel(Model model) {
+		this.model= model;
+		comboCorso.getItems().addAll(getCorsi());
 
 	}
 
 	@FXML
 	void doReset(ActionEvent event) {
-
+		txtMatricola.clear();
+		txtNome.clear();
+		txtCognome.clear();
+		txtResult.clear();
 	}
 
 	@FXML
 	void doCercaNome(ActionEvent event) {
-
+		
+		String matricola= txtMatricola.getText();
+		int mat = Integer.parseInt(matricola);
+		
+		Studente s = model.getStudenti(mat);
+		
+		if(s!=null){
+			txtNome.setText(s.getNome());
+			txtCognome.setText(s.getCognome());
+		}
+		else
+			txtResult.appendText("Studente non presente nel database!\n");
 	}
 
+	
+	/*
+	 * Implementare la ricerca degli studenti iscritti ad un corso: selezionato un corso dal menù a tendina, 
+	 * facendo click sul pulsante Cerca iscritti corso, vengono visualizzati tutti gli studenti iscritti a quel corso.
+	 *  Se nessun corso è selezionato, avvisare l’utente con un messaggio di errore.
+	 */
 	@FXML
 	void doCercaIscrittiCorso(ActionEvent event) {
-
+		
+		Corso corso = comboCorso.getValue();
+		
+		LinkedList<Studente> st = new LinkedList<Studente>(model.getStudentiDelCorso(corso));
+		
+		if(st!=null){
+			for(Studente s: st)
+				txtResult.appendText(s.toString()+"\n");			
+		}else{
+			txtResult.appendText("Corso senza iscritti! \n");
+		}
+		
 	}
 
 	@FXML
 	void doCercaCorsi(ActionEvent event) {
-
+		
 	}
 
 	@FXML
 	void doIscrivi(ActionEvent event) {
-
+		
 	}
 
 	@FXML
@@ -90,6 +123,18 @@ public class SegreteriaStudentiController {
 		assert btnIscrivi != null : "fx:id=\"btnIscrivi\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
 		assert txtMatricola != null : "fx:id=\"txtMatricola\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
 		assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
+	
+		
+		
 	}
+
+	public List<Corso> getCorsi(){
+		
+		corsi = new LinkedList<Corso>(model.getCorsi());
+		
+		return corsi;
+	}
+	
+	
 
 }
