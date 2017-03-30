@@ -66,4 +66,33 @@ public class StudenteDAO {
 			throw new RuntimeException("Errore Db");
 		}
 	}
+
+	public String iscrittoAlCorso(int m, Corso c) {
+		final String sql = "SELECT DISTINCT c.codins, c.crediti, c.nome, c.pd "+
+							"FROM iscrizione as i, corso as c "+
+							"WHERE i.codins=c.codins AND i.matricola= ? AND i.codins= ? ";
+				try {
+					Connection conn = ConnectDB.getConnection();
+					PreparedStatement st = conn.prepareStatement(sql);
+
+					st.setString(2, c.getCodice());
+					st.setInt(1, m);
+					
+					ResultSet rs = st.executeQuery();
+					
+					Corso ctemp = null;
+					
+					while (rs.next()) {				
+						ctemp= new Corso(rs.getString("codins"), rs.getInt("crediti"), rs.getString("nome"), rs.getInt("pd"));
+					}
+					if(ctemp!=null)
+						return ctemp.toString();
+					
+					return null;
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw new RuntimeException("Errore Db");
+				}
+			}
 }

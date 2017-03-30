@@ -84,7 +84,12 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="btnIscrivi" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#doIscrivi" text="Iscrivi">
+                  <Button fx:id="btnCerca" mnemonicParsing="false" onAction="#doCerca" text="Cerca">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="300.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnIscrivi" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Iscrivi">
                      <HBox.margin>
                         <Insets bottom="10.0" left="500.0" right="10.0" top="10.0" />
                      </HBox.margin>

@@ -49,6 +49,20 @@ public class Model {
 				
 		return null;
 	}
+
+	public String getStudenteIscrittoAlCorso(int mat, Corso c) {
+		if(this.getStudenti(mat)!=null){
+			StudenteDAO dao = new StudenteDAO();
+			String res =dao.iscrittoAlCorso(mat, c);
+			
+				if( res!=null )
+					return res;
+				else
+					return null;
+		}
+				
+		return null;
+	}
 	
 	
 }

@@ -39,7 +39,7 @@ public class CorsoDAO {
 			return corsi;
 
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			throw new RuntimeException("Errore Db");
 		}
 	}

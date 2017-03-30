@@ -28,7 +28,7 @@ public class Corso {
 
 	@Override
 	public String toString() {
-		return "Corso " + nome + "\n";
+		return "Corso: " +codice+" "+cfu+" "+ nome + "\n";
 	}
 	
 	public LinkedList<Studente> getStudenti() {

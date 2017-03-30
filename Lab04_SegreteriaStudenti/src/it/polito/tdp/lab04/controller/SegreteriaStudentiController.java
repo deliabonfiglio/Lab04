@@ -1,8 +1,11 @@
 package it.polito.tdp.lab04.controller;
 
+import java.awt.event.InputMethodEvent;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 import it.polito.tdp.lab04.model.Corso;
 import it.polito.tdp.lab04.model.Model;
@@ -48,6 +51,9 @@ public class SegreteriaStudentiController {
 
 	@FXML
 	private TextField txtCognome;
+	
+    @FXML // fx:id="btnCerca"
+    private Button btnCerca; // Value injected by FXMLLoader
 
 	public void setModel(Model model) {
 		this.model= model;
@@ -122,10 +128,40 @@ public class SegreteriaStudentiController {
 		}
 	}
 
-	@FXML
-	void doIscrivi(ActionEvent event) {
+    @FXML
+    void doCerca(ActionEvent event) {
+		Corso c = comboCorso.getValue();
+		if( c!= null){
+			try{
+				String matricola= txtMatricola.getText();
+				int mat = Integer.parseInt(matricola);
+				Studente s = model.getStudenti(mat);
+				
+				if(s!=null){
+					
+					if(model.getStudenteIscrittoAlCorso(mat, c) !=null){	
+						txtResult.appendText("Studente presente nel DB e già iscritto al corso selezionato.\n");
+					
+					} else{						
+						txtResult.appendText("Studente presente nel DB ma NON iscritto al corso selezionato. "
+								+ "Se si desidera iscrivere cliccare sul BOTTONE ISCRIVI\n");
+					}					
+				} else{
+					txtResult.appendText("ATTENZIONE: Studente NON presente nel DB!\n");
+				}
+			} catch (NumberFormatException e){
+				txtResult.appendText("ATTENZIONE: Inserire la matricola!\n");
+				} 
+		} else {
+			txtResult.appendText("ATTENZIONE: Scegliere un corso!\n");
+		}
+	}
+	
+	
+	void doIscrivi(ActionEvent event){
 		
 	}
+	
 
 	@FXML
 	void initialize() {
@@ -139,15 +175,12 @@ public class SegreteriaStudentiController {
 		assert btnIscrivi != null : "fx:id=\"btnIscrivi\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
 		assert txtMatricola != null : "fx:id=\"txtMatricola\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
 		assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
-	
-		
-		
+		assert btnCerca != null : "fx:id=\"btnCerca\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
 	}
 
 	public List<Corso> getCorsi(){
 		
-		corsi = new LinkedList<Corso>(model.getCorsi());
-		
+		corsi = new LinkedList<Corso>(model.getCorsi());		
 		return corsi;
 	}
 	
