@@ -58,6 +58,7 @@ public class SegreteriaStudentiController {
 	public void setModel(Model model) {
 		this.model= model;
 		comboCorso.getItems().addAll(getCorsi());
+		
 	}
 
 	@FXML
@@ -70,21 +71,46 @@ public class SegreteriaStudentiController {
 
 	@FXML
 	void doCercaNome(ActionEvent event) {
-		
-		String matricola= txtMatricola.getText();
-		int mat = Integer.parseInt(matricola);
-		
-		Studente s = model.getStudenti(mat);
-		
-		if(s!=null){
-			txtNome.setText(s.getNome());
-			txtCognome.setText(s.getCognome());
-		}
-		else
-			txtResult.appendText("Studente non presente nel database!\n");
-	}
+    	Corso c = comboCorso.getValue();
+    	
+			try{
+				String matricola= txtMatricola.getText();
+			//	if(matricola.matches("[a-zA-Z]+")){
+					int mat = Integer.parseInt(matricola);
+					Studente s = model.getStudenti(mat);
+					
+					if( s!= null){
+						
+						if((c!=null) ){
+							
+							if(model.getStudenteIscrittoAlCorso(mat, c) !=null){
+								txtNome.setText(s.getNome());
+								txtCognome.setText(s.getCognome());
+								txtResult.appendText("Studente presente nel DB e già iscritto al corso selezionato.\n");
+							
+							} else{					
+								txtNome.setText(s.getNome());
+								txtCognome.setText(s.getCognome());
+								txtResult.appendText("Studente presente nel DB ma NON iscritto al corso selezionato. "
+										+ "Se si desidera iscrivere cliccare sul BOTTONE ISCRIVI\n");
+							}
+							
+						} else{
+							txtNome.setText(s.getNome());
+							txtCognome.setText(s.getCognome());					
+						}
+					} else {
+						txtResult.appendText("ATTENZIONE: Studente NON presente nel DB!\n");
+						}
+			/*	}else{
+					txtResult.appendText("Inserire solo numeri nel campo della matricola!\n");
+				}*/
 
-	
+				} catch (NumberFormatException e){
+					txtResult.appendText("ATTENZIONE: Inserire la matricola con soli numeri!");
+					} 
+		} 
+
 	/*
 	 * Implementare la ricerca degli studenti iscritti ad un corso: selezionato un corso dal menù a tendina, 
 	 * facendo click sul pulsante Cerca iscritti corso, vengono visualizzati tutti gli studenti iscritti a quel corso.
@@ -113,6 +139,7 @@ public class SegreteriaStudentiController {
 	void doCercaCorsi(ActionEvent event) {
 		try{
 			String matricola= txtMatricola.getText();
+	//if(matricola.matches("[a-zA-Z]*")){
 			int mat = Integer.parseInt(matricola);
 			Studente s = model.getStudenti(mat);
 			
@@ -122,45 +149,60 @@ public class SegreteriaStudentiController {
 				}else{
 					txtResult.appendText("Studente con questa matricola non presente nel DB!\n");
 				}
+			/*} else {
+				txtResult.appendText("Inserire solo numeri nel campo matricola!\n");
+			}*/
 				
 	} catch (NumberFormatException e){
-		txtResult.appendText("Inserire la matricola!");
+		txtResult.appendText("ATTENZIONE: Inserire la matricola con soli numeri!");
 		}
 	}
 
     @FXML
-    void doCerca(ActionEvent event) {
-		Corso c = comboCorso.getValue();
-		if( c!= null){
-			try{
-				String matricola= txtMatricola.getText();
+    void doIscrivi(ActionEvent event) {
+    	Corso c = comboCorso.getValue();
+    	
+		try{
+			String matricola= txtMatricola.getText();
+		//	if(matricola.matches("[a-zA-Z]+")){
 				int mat = Integer.parseInt(matricola);
 				Studente s = model.getStudenti(mat);
 				
-				if(s!=null){
+				if( s!= null){
 					
-					if(model.getStudenteIscrittoAlCorso(mat, c) !=null){	
-						txtResult.appendText("Studente presente nel DB e già iscritto al corso selezionato.\n");
-					
-					} else{						
-						txtResult.appendText("Studente presente nel DB ma NON iscritto al corso selezionato. "
-								+ "Se si desidera iscrivere cliccare sul BOTTONE ISCRIVI\n");
-					}					
-				} else{
+					if((c!=null) ){
+						
+						if(model.getStudenteIscrittoAlCorso(mat, c) !=null){
+							txtNome.setText(s.getNome());
+							txtCognome.setText(s.getCognome());
+							
+							txtResult.appendText("Studente presente nel DB e già iscritto al corso selezionato.\n");
+						
+						} else{					
+							txtNome.setText(s.getNome());
+							txtCognome.setText(s.getCognome());
+							
+							if(model.iscriviStudenteAlCorso(s, c)==true)
+								txtResult.appendText("Lo studente e' stato iscritto con successo al corso selezionato.\n");
+							else 
+								txtResult.appendText("Errore");
+						}
+						
+					} else{
+						txtNome.setText(s.getNome());
+						txtCognome.setText(s.getCognome());					
+					}
+				} else {
 					txtResult.appendText("ATTENZIONE: Studente NON presente nel DB!\n");
-				}
+					}
+		/*	}else{
+				txtResult.appendText("Inserire solo numeri nel campo della matricola!\n");
+			}*/
+
 			} catch (NumberFormatException e){
-				txtResult.appendText("ATTENZIONE: Inserire la matricola!\n");
+				txtResult.appendText("ATTENZIONE: Inserire la matricola in soli numeri!\n");
 				} 
-		} else {
-			txtResult.appendText("ATTENZIONE: Scegliere un corso!\n");
-		}
-	}
-	
-	
-	void doIscrivi(ActionEvent event){
-		
-	}
+	} 
 	
 
 	@FXML

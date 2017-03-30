@@ -63,6 +63,17 @@ public class Model {
 				
 		return null;
 	}
+
+	public boolean iscriviStudenteAlCorso(Studente s, Corso c) {
+		if(this.getStudenti(s.getMatricola())!=null){
+			StudenteDAO dao = new StudenteDAO();
+			boolean res =dao.iscriviAlCorso(s, c);
+			
+			return res;
+		}
+				
+		return false;
+	}
 	
 	
 }

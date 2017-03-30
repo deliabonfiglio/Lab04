@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -95,4 +96,33 @@ public class StudenteDAO {
 					throw new RuntimeException("Errore Db");
 				}
 			}
+
+	public boolean iscriviAlCorso(Studente s, Corso c) {
+		
+		final String sql = "INSERT INTO iscrizione "+
+							"VALUES (?,'?') ";
+	try {
+		Connection conn = ConnectDB.getConnection();
+		PreparedStatement st = conn.prepareStatement(sql);
+
+	   int ris=  st.executeUpdate(sql);
+		
+		st.setInt(1, s.getMatricola());
+		st.setString(2, c.getCodice());
+		
+		
+			c.aggiungiStudente(s);
+			s.aggiungiCorsoAlloStudente(c);
+		
+			if(ris ==1)
+				return true;
+			return false;
+			
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+		throw new RuntimeException("Errore Db");
+	}
+}
+
 }

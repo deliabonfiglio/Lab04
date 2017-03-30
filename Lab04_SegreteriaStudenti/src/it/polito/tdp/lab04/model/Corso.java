@@ -101,5 +101,11 @@ public class Corso {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+
+	public void aggiungiStudente(Studente s) {
+		studenti.add(s);
+		
+	}
 	
 }
