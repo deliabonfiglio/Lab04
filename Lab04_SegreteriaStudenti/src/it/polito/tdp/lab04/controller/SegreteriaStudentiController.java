@@ -52,7 +52,6 @@ public class SegreteriaStudentiController {
 	public void setModel(Model model) {
 		this.model= model;
 		comboCorso.getItems().addAll(getCorsi());
-
 	}
 
 	@FXML
@@ -106,22 +105,21 @@ public class SegreteriaStudentiController {
 	 */
 	@FXML
 	void doCercaCorsi(ActionEvent event) {
-		String matricola= txtMatricola.getText();
-		int mat = Integer.parseInt(matricola);
-		
-		if(matricola!=""){
-		Studente s = model.getStudenti(mat);
-		
-			if(s!=null){
-				String res = model.getCorsiDelloStudente(s).toString();
-				txtResult.appendText(res);				
-			}
+		try{
+			String matricola= txtMatricola.getText();
+			int mat = Integer.parseInt(matricola);
+			Studente s = model.getStudenti(mat);
 			
-		} else {
-			txtResult.appendText("Inserire la matricola!");
+				if(s!=null){
+					String res = model.getCorsiDelloStudente(s).toString();
+					txtResult.appendText(res);				
+				}else{
+					txtResult.appendText("Studente con questa matricola non presente nel DB!\n");
+				}
+				
+	} catch (NumberFormatException e){
+		txtResult.appendText("Inserire la matricola!");
 		}
-		
-		
 	}
 
 	@FXML
